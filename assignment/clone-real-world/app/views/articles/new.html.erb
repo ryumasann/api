@@ -1,0 +1,47 @@
+<% provide(:title, "Editor") %>
+<div class="editor-page">
+  <div class="container page">
+    <div class="row">
+      <div class="col-md-10 offset-md-1 col-xs-12">
+        <%
+=begin%>
+ <%= form_with(model: @article, url: create_article_path) do |f| %>
+<%
+=end%>
+        <%= form_with(model: @article) do |f| %>
+          <%
+=begin%>
+ <%= render 'shared/error_messages', object: f.object %>
+<%
+=end%>
+          <fieldset>
+            <fieldset class="form-group">
+              <%= f.label :title %>
+              <%= f.text_field :title, class: 'form-control', placeholder: "Article Title" %>
+            </fieldset>
+            <fieldset class="form-group">
+              <%= f.label :description %>
+              <%= f.text_field :description, class: 'form-control', placeholder: "What's this article about?" %>
+            </fieldset>
+            <fieldset class="form-group">
+              <%= f.label :body %>
+              <%= f.text_area :body, class: 'form-control', placeholder: "Write your article (in markdown)" %>
+            </fieldset>
+              <%
+=begin%>
+ <%= f.label :tag %>
+              <%= f.text_field :tag, class: 'form-control', placeholder: "Enter tags" %>
+              <div class="tag-list">
+                <span class="tag-default tag-pill"> <i class="ion-close-round"></i> tag </span>
+              </div>
+<%
+=end%>
+            <fieldset>
+              <%= f.submit "Publish Article", class: "btn btn-lg pull-xs-right btn-primary" %>
+            </fieldset>
+          </fieldset>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
