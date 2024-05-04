@@ -1,19 +1,14 @@
-class ArticlesController < ApplicationController
+class Api::ArticlesController < ApplicationController
   def index
     @articles = Article.limit(10)
     # @articles = Article.joins(:tags).includes(:tags).limit(10)
-    puts @articles.to_sql
     @tags = Tag.limit(10)
-    puts @tags.to_sql
   end
 
   def show
-    # @article = Article.includes(:tag)
-    # @article = Article.find_by(id: params[:slug])
     @article = Article.find_by(slug: params[:slug])
     puts @article
     puts Article
-    # @article = Article.includes(:tag).find_by(slug: params[:slug])
   end
 
   def new
