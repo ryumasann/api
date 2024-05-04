@@ -1,5 +1,7 @@
 class Api::ArticlesController < ApplicationController
   skip_before_action :verify_authenticity_token
+  # single_article = { article: { slug: @article.slug, title: @article.title, description: @article.description,
+  #                               body: @article.body, tagList: %w[dragons training], createdAt: @article.created_at, updatedAt: @article.updated_at, favorited: false, favoritesCount: 0, author: { username: 'jake', bio: 'I work at statefarm', image: 'https://i.stack.imgur.com/xHWG8.jpg', following: false } } }
   def index
     @articles = Article.limit(10)
     # @articles = Article.joins(:tags).includes(:tags).limit(10)
@@ -36,7 +38,8 @@ class Api::ArticlesController < ApplicationController
     @article = Article.find_by(slug: params[:slug])
 
     if @article.update(article_params)
-      redirect_to articles_url
+      render json: { article: { slug: @article.slug, title: @article.title, description: @article.description, body: @article.body,
+                                tagList: %w[dragons training], createdAt: @article.created_at, updatedAt: @article.updated_at, favorited: false, favoritesCount: 0, author: { username: 'jake', bio: 'I work at statefarm', image: 'https://i.stack.imgur.com/xHWG8.jpg', following: false } } }
     else
       render :edit, status: :unprocessable_entity
     end
