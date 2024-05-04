@@ -9,7 +9,8 @@ class ArticlesController < ApplicationController
 
   def show
     # @article = Article.includes(:tag)
-    @article = Article.find_by(id: params[:id])
+    # @article = Article.find_by(id: params[:id])
+    @article = Article.find_by(slug: params[:slug])
     # @article = Article.includes(:tag).find_by(slug: params[:slug])
   end
 
