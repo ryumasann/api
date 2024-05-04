@@ -1,4 +1,5 @@
 class Api::ArticlesController < ApplicationController
+  skip_before_action :verify_authenticity_token
   def index
     @articles = Article.limit(10)
     # @articles = Article.joins(:tags).includes(:tags).limit(10)
@@ -7,8 +8,8 @@ class Api::ArticlesController < ApplicationController
 
   def show
     @article = Article.find_by(slug: params[:slug])
-    puts @article
-    puts Article
+    render json: { article: { slug: @article.slug, title: @article.title, description: @article.description, body: @article.body,
+                              tagList: %w[dragons training], createdAt: @article.created_at, updatedAt: @article.updated_at, favorited: false, favoritesCount: 0, author: { username: 'jake', bio: 'I work at statefarm', image: 'https://i.stack.imgur.com/xHWG8.jpg', following: false } } }
   end
 
   def new
@@ -17,12 +18,11 @@ class Api::ArticlesController < ApplicationController
 
   def create
     @article = Article.new(article_params)
-    p @article
     if @article.save
-      flash[:success] = '投稿完了'
-      redirect_to articles_url
-      # redirect_to article_url(@article.slug)
-      # redirect_to article_url(@article.slug)
+      # render json: { article: { title: @article.title, description: @article.description, body: @article.body,
+      #                           tagList: @article.tags } }
+      render json: { article: { slug: @article.slug, title: @article.title, description: @article.description, body: @article.body,
+                                tagList: %w[dragons training], createdAt: @article.created_at, updatedAt: @article.updated_at, favorited: false, favoritesCount: 0, author: { username: 'jake', bio: 'I work at statefarm', image: 'https://i.stack.imgur.com/xHWG8.jpg', following: false } } }
     else
       render 'new', status: :unprocessable_entity
     end
